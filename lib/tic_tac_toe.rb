@@ -2,8 +2,9 @@
 # TicTacToe Class deals with all the logic for playing the game
 class TicTacToe
   def initialize
-    @match_grid = [['', '', ''], ['', '', ''], ['', '', '']]
+    @match_grid = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
     @last_played = ''
+    @in_play = true;
   end
 
   def play(nought_or_cross, column, row)
@@ -22,9 +23,10 @@ class TicTacToe
   private
 
   def validate_move(nought_or_cross, column, row)
+    raise 'Game is over dumbo' unless @in_play
     raise "It's not your turn" if nought_or_cross == @last_played
     raise 'Row/column has to be between 1 and 3' if !column.between?(1, 3) || !row.between?(1, 3)
-    raise 'This box is taken' if @match_grid[column - 1][row - 1] != ''
+    raise 'This box is taken' if @match_grid[column - 1][row - 1] != ' '
     raise "Move has to be an 'X' or a '0'" unless %w[X 0].include? nought_or_cross
   end
 
@@ -35,6 +37,7 @@ class TicTacToe
 
   def check_response(nought_or_cross)
     if check_for_win
+      @in_play = false;
       "#{nought_or_cross} is the Winner"
     elsif check_for_draw
       "It's a draw"
@@ -62,7 +65,7 @@ class TicTacToe
   def check_for_draw
     spaces = 0
     (0..2).each do |x|
-      spaces += @match_grid[x].count('')
+      spaces += @match_grid[x].count(' ')
     end
     spaces == 0
   end
