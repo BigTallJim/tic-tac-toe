@@ -12,6 +12,13 @@ class TicTacToe
     check_response(nought_or_cross)
   end
 
+  def print()
+    p @match_grid[0]
+    p @match_grid[1]
+    p @match_grid[2]
+    p "#{@last_played} played last"
+  end
+
   private
 
   def validate_move(nought_or_cross, column, row)
